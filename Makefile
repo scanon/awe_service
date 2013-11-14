@@ -85,6 +85,8 @@ deploy-client: all
 	cp $(BIN_DIR)/awe-client $(TARGET)/bin
 	$(TPAGE) $(TPAGE_ARGS) awe_client.cfg.tt > awec.cfg
 	mkdir -p $(BIN_DIR) $(SERVICE_DIR) $(SERVICE_DIR)/conf $(SERVICE_DIR)/logs/awe $(SERVICE_DIR)/data/temp
+	mkdir -p $(AWE_DIR)/data $(AWE_DIR)/logs $(AWE_DIR)/work      
+	chmod 777 $(AWE_DIR)/data $(AWE_DIR)/logs $(AWE_DIR)/work
 	cp -v awec.cfg $(SERVICE_DIR)/conf/awec.cfg
 	cp service/start_aweclient $(SERVICE_DIR)/
 	chmod +x $(SERVICE_DIR)/start_aweclient
