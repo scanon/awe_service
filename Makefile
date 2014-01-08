@@ -52,7 +52,7 @@ include $(TOP_DIR)/tools/Makefile.common
 
 all: initialize build-awe
 
-deploy: deploy-service deploy-client deploy-utils
+deploy: deploy-libs deploy-service deploy-client deploy-utils
 
 build-awe: $(BIN_DIR)/awe-server
 
@@ -63,6 +63,9 @@ $(BIN_DIR)/awe-server: AWE/awe-server/awe-server.go
 	export GOPATH=$(GO_TMP_DIR); go get -v github.com/MG-RAST/AWE/...
 	cp -v $(GO_TMP_DIR)/bin/awe-server $(BIN_DIR)/awe-server
 	cp -v $(GO_TMP_DIR)/bin/awe-client $(BIN_DIR)/awe-client
+
+deploy-libs:
+	rsync --exclude '*.bak' -arv AWE/utils/lib/. $(TARGET)/lib/.
 
 deploy-service: all
 	cp $(BIN_DIR)/awe-server $(TARGET)/bin
