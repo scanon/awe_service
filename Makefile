@@ -47,6 +47,7 @@ else
 endif
 
 include $(TOP_DIR)/tools/Makefile.common
+include $(TOP_DIR)/tools/Makefile.common.rules
 
 .PHONY : test
 
@@ -102,8 +103,6 @@ initialize: AWE/site
 AWE/site:
 	git submodule init
 	git submodule update
-
-include $(TOP_DIR)/tools/Makefile.common.rules
 
 deploy-utils: SRC_PERL = $(wildcard AWE/utils/*.pl)
 deploy-utils: deploy-scripts
