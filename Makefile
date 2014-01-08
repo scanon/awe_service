@@ -53,7 +53,7 @@ include $(TOP_DIR)/tools/Makefile.common.rules
 
 all: initialize build-awe
 
-deploy: deploy-libs deploy-service deploy-client deploy-utils
+deploy: deploy-service deploy-client deploy-utils deploy-libs
 
 build-awe: $(BIN_DIR)/awe-server
 
