@@ -2,5 +2,7 @@
 # This service maintains a  awe-client instance with applications in MG-RAST-v3 pipeline
 # started until it is shut down again.
 
+rm -f /home/ubuntu/awe-client.out
+
 exec sudo -E -u ubuntu /kb/deployment/services/awe_service/start_aweclient >> /home/ubuntu/awe-client.out 2>&1
 #exec /kb/deployment/bin/awe-client -conf /kb/deployment/services/awe_service/conf/awec.cfg
