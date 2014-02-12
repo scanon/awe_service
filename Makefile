@@ -46,12 +46,12 @@ else
 	--define supported_apps=awe_qc.pl,awe_annotate.pl,awe_bowtie_screen.pl,awe_cluster_parallel.pl,awe_dereplicate.pl,awe_genecalling.pl,awe_preprocess.pl,awe_rna_blat.sh,awe_rna_search.pl,awe_blat.py
 endif
 
+all: initialize build-awe
 include $(TOP_DIR)/tools/Makefile.common
 include $(TOP_DIR)/tools/Makefile.common.rules
 
 .PHONY : test
 
-all: initialize build-awe
 
 deploy: deploy-service deploy-client deploy-utils deploy-libs
 
