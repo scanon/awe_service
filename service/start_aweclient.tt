@@ -1,0 +1,7 @@
+#!/bin/bash
+
+PID_FILE=[% kb_top %]/services/awe_service/client.pid
+AWEC_CONFIG=[% kb_top %]/services/awe_service/conf/awec.cfg
+
+echo "[% kb_runtime %]/sbin/daemonize -v -p $PID_FILE [% kb_top %]/bin/awe-client -conf $AWEC_CONFIG"
+[% kb_runtime %]/sbin/daemonize -v -p $PID_FILE [% kb_top %]/bin/awe-client -conf $AWEC_CONFIG

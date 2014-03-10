@@ -83,7 +83,6 @@ deploy-service: all
 	chmod +x $(SERVICE_DIR)/start_service
 	cp service/stop_service $(SERVICE_DIR)/
 	chmod +x $(SERVICE_DIR)/stop_service
-	$(TPAGE) $(TPAGE_ARGS) init/awe.conf.tt > /etc/init/awe.conf
 
 deploy-client: all
 	cp $(BIN_DIR)/awe-client $(TARGET)/bin
@@ -96,6 +95,9 @@ deploy-client: all
 	chmod +x $(SERVICE_DIR)/start_aweclient
 	cp service/stop_aweclient $(SERVICE_DIR)/
 	chmod +x $(SERVICE_DIR)/stop_aweclient
+
+deploy-upstart:
+	$(TPAGE) $(TPAGE_ARGS) init/awe.conf.tt > /etc/init/awe.conf
 	$(TPAGE) $(TPAGE_ARGS) init/awe-client.conf.tt > /etc/init/awe-client.conf
 
 initialize: AWE/site

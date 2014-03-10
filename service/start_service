@@ -1,6 +1,0 @@
-#!/bin/bash
-
-source /kb/deployment/user-env.sh
-
-echo "/usr/sbin/service awe start"
-/usr/sbin/service awe start
