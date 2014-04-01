@@ -1,0 +1,7 @@
+#!/bin/bash
+
+PID_FILE=[% kb_top %]/services/awe_service/service.pid
+
+PID=`cat $PID_FILE`
+kill $PID 2>&1
+rm $PID_FILE

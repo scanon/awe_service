@@ -1,6 +1,0 @@
-#!/bin/bash
-
-source /kb/deployment/user-env.sh
-
-echo "/usr/sbin/service awe stop"
-/usr/sbin/service awe stop

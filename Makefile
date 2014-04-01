@@ -6,11 +6,12 @@ SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 
 GO_TMP_DIR = /tmp/go_build.tmp
 
-PRODUCTION = 1 
+PRODUCTION = 0 
 
 ifeq ($(PRODUCTION), 1)
 	AWE_DIR = /disk0/awe
 	TPAGE_ARGS = --define kb_top=$(TARGET) \
+	--define kb_runtime=$(DEPLOY_RUNTIME) \
 	--define site_url=https://kbase.us/services/awe \
 	--define api_url=https://kbase.us/services/awe-api \
 	--define site_port=7106 \
@@ -29,6 +30,7 @@ ifeq ($(PRODUCTION), 1)
 else
 	AWE_DIR = /mnt/awe
 	TPAGE_ARGS = --define kb_top=$(TARGET) \
+	--define kb_runtime=$(DEPLOY_RUNTIME) \
 	--define site_url= \
 	--define api_url= \
 	--define site_port=7079 \
@@ -79,11 +81,12 @@ deploy-service: all
 	mkdir -p $(BIN_DIR) $(SERVICE_DIR) $(SERVICE_DIR)/conf $(SERVICE_DIR)/logs/awe $(SERVICE_DIR)/data/temp
 	cp -v awe.cfg $(SERVICE_DIR)/conf/awe.cfg
 	cp -r AWE/templates/awf_templates/* $(AWE_DIR)/awfs/
+	$(TPAGE) $(TPAGE_ARGS) service/start_service.tt > service/start_service
+	$(TPAGE) $(TPAGE_ARGS) service/stop_service.tt > service/stop_service
 	cp service/start_service $(SERVICE_DIR)/
 	chmod +x $(SERVICE_DIR)/start_service
 	cp service/stop_service $(SERVICE_DIR)/
 	chmod +x $(SERVICE_DIR)/stop_service
-	$(TPAGE) $(TPAGE_ARGS) init/awe.conf.tt > /etc/init/awe.conf
 
 deploy-client: all
 	cp $(BIN_DIR)/awe-client $(TARGET)/bin
@@ -92,10 +95,15 @@ deploy-client: all
 	mkdir -p $(AWE_DIR)/data $(AWE_DIR)/logs $(AWE_DIR)/work      
 	chmod 777 $(AWE_DIR)/data $(AWE_DIR)/logs $(AWE_DIR)/work
 	cp -v awec.cfg $(SERVICE_DIR)/conf/awec.cfg
+	$(TPAGE) $(TPAGE_ARGS) service/start_aweclient.tt > service/start_aweclient
+	$(TPAGE) $(TPAGE_ARGS) service/stop_aweclient.tt > service/stop_aweclient
 	cp service/start_aweclient $(SERVICE_DIR)/
 	chmod +x $(SERVICE_DIR)/start_aweclient
 	cp service/stop_aweclient $(SERVICE_DIR)/
 	chmod +x $(SERVICE_DIR)/stop_aweclient
+
+deploy-upstart:
+	$(TPAGE) $(TPAGE_ARGS) init/awe.conf.tt > /etc/init/awe.conf
 	$(TPAGE) $(TPAGE_ARGS) init/awe-client.conf.tt > /etc/init/awe-client.conf
 
 initialize: AWE/site
