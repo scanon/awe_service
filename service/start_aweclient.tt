@@ -1,8 +1,7 @@
 #!/bin/bash
-
+source [% kb_top %]/user-env.sh
 PID_FILE=[% kb_top %]/services/awe_service/client.pid
 AWEC_CONFIG=[% kb_top %]/services/awe_service/conf/awec.cfg
-export PATH=[% kb_runtime %]/bin:[% kb_top %]/bin:$PATH
 
 echo "[% kb_runtime %]/sbin/daemonize -v -p $PID_FILE [% kb_top %]/bin/awe-client -conf $AWEC_CONFIG"
 [% kb_runtime %]/sbin/daemonize -v -p $PID_FILE [% kb_top %]/bin/awe-client -conf $AWEC_CONFIG
