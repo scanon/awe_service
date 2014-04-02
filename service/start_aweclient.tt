@@ -5,6 +5,7 @@ export PATH=$KB_TOP/bin:$KB_RUNTIME/bin:$PATH
 export PERL5LIB=$KB_TOP/lib
 export KB_SERVICE_DIR=$KB_TOP/services/[% kb_service_dir %]
 export KB_DEPLOYMENT_CONFIG=$KB_TOP/deployment.cfg
+export R_LIBS=$KB_TOP/lib
 
 PID_FILE=[% kb_top %]/services/awe_service/client.pid
 AWEC_CONFIG=[% kb_top %]/services/awe_service/conf/awec.cfg
