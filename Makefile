@@ -26,7 +26,7 @@ ifeq ($(PRODUCTION), 1)
 	--define server_url=http://140.221.84.148:8000 \
 	--define client_group=kbase \
 	--define client_name=kbase-client \
-	--define supported_apps=awe_qc.pl,awe_annotate.pl,awe_bowtie_screen.pl,awe_cluster_parallel.pl,awe_dereplicate.pl,awe_genecalling.pl,awe_preprocess.pl,awe_rna_blat.sh,awe_rna_search.pl,awe_blat.py
+	--define supported_apps=awe_qc.pl,awe_annotate.pl,awe_bowtie_screen.pl,awe_cluster_parallel.pl,awe_dereplicate.pl,awe_genecalling.pl,awe_preprocess.pl,awe_rna_blat.sh,awe_rna_search.pl,awe_blat.py,kmer-tool,drisee,consensus,unpack,histogram2json,drisee2json,kmer2json
 else
 	AWE_DIR = /mnt/awe
 	TPAGE_ARGS = --define kb_top=$(TARGET) \
