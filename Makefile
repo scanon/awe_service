@@ -54,8 +54,11 @@ include $(TOP_DIR)/tools/Makefile.common.rules
 
 .PHONY : test
 
-
 deploy: deploy-service deploy-client deploy-utils deploy-libs
+
+clean:
+	-rm $(BIN_DIR)/awe-server
+	-rm $(BIN_DIR)/awe-client
 
 build-awe: $(BIN_DIR)/awe-server
 
