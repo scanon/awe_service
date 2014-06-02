@@ -5,9 +5,4 @@ PID_FILE=[% kb_top %]/services/awe_service/client.pid
 PID=`cat $PID_FILE`
 kill $PID 2>&1
 
-if [ $$? -ne 0 ] ; then
-  echo "could not kill $PID"
-  exit 1
-fi
-			
 rm $PID_FILE
