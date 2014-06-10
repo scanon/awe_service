@@ -48,16 +48,21 @@ else
 	--define supported_apps=awe_qc.pl,awe_annotate.pl,awe_bowtie_screen.pl,awe_cluster_parallel.pl,awe_dereplicate.pl,awe_genecalling.pl,awe_preprocess.pl,awe_rna_blat.sh,awe_rna_search.pl,awe_blat.py
 endif
 
-all: initialize build-awe
+all: initialize build-awe |
 include $(TOP_DIR)/tools/Makefile.common
 include $(TOP_DIR)/tools/Makefile.common.rules
 
 .PHONY : test
 
-
 deploy: deploy-service deploy-client deploy-utils deploy-libs
 
+clean:
+	-rm $(BIN_DIR)/awe-server
+	-rm $(BIN_DIR)/awe-client
+
 build-awe: $(BIN_DIR)/awe-server
+
+build-update: update build-awe |
 
 $(BIN_DIR)/awe-server: AWE/awe-server/awe-server.go
 	rm -rf $(GO_TMP_DIR)
@@ -107,6 +112,9 @@ deploy-upstart:
 	$(TPAGE) $(TPAGE_ARGS) init/awe-client.conf.tt > /etc/init/awe-client.conf
 
 initialize: AWE/site
+
+update:
+	cd AWE; git pull origin master
 
 AWE/site:
 	git submodule init
