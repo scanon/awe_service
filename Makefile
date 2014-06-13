@@ -5,6 +5,7 @@ SERVICE = awe_service
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 SERVER_URL = http://localhost:8000
 GO_TMP_DIR = /tmp/go_build.tmp
+CLIENT_GROUP = kbase
 APP_LIST = '*'
 PRODUCTION = 0 
 
@@ -24,8 +25,8 @@ ifeq ($(PRODUCTION), 1)
 	--define mongo_db=AWEDB \
 	--define work_dir=$(AWE_DIR)/work \
 	--define server_url=$(SERVER_URL) \
-	--define client_group=kbase \
-	--define client_name=kbase-client \
+	--define client_group=$(CLIENT_GROUP) \
+	--define client_name=$(CLIENT_GROUP)-client \
 	--define supported_apps=$(APP_LIST)
 else
 	AWE_DIR = /mnt/awe
@@ -43,8 +44,8 @@ else
 	--define mongo_db=AWEDB \
 	--define work_dir=$(AWE_DIR)/work \
 	--define server_url=$(SERVER_URL) \
-	--define client_group=kbase \
-	--define client_name=kbase-client \
+	--define client_group=$(CLIENT_GROUP) \
+	--define client_name=$(CLIENT_GROUP)-client \
 	--define supported_apps=$(APP_LIST)
 endif
 
