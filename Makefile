@@ -3,9 +3,9 @@ TARGET ?= /kb/deployment
 DEPLOY_RUNTIME = /kb/runtime
 SERVICE = awe_service
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
-
+SERVER_URL = http://localhost:8000
 GO_TMP_DIR = /tmp/go_build.tmp
-
+APP_LIST = '*'
 PRODUCTION = 0 
 
 ifeq ($(PRODUCTION), 1)
@@ -23,10 +23,10 @@ ifeq ($(PRODUCTION), 1)
 	--define mongo_host=localhost \
 	--define mongo_db=AWEDB \
 	--define work_dir=$(AWE_DIR)/work \
-	--define server_url=http://140.221.84.148:8000 \
+	--define server_url=$(SERVER_URL) \
 	--define client_group=kbase \
 	--define client_name=kbase-client \
-	--define supported_apps=awe_qc.pl,awe_annotate.pl,awe_bowtie_screen.pl,awe_cluster_parallel.pl,awe_dereplicate.pl,awe_genecalling.pl,awe_preprocess.pl,awe_rna_blat.sh,awe_rna_search.pl,awe_blat.py
+	--define supported_apps=$(APP_LIST)
 else
 	AWE_DIR = /mnt/awe
 	TPAGE_ARGS = --define kb_top=$(TARGET) \
@@ -42,10 +42,10 @@ else
 	--define mongo_host=localhost \
 	--define mongo_db=AWEDB \
 	--define work_dir=$(AWE_DIR)/work \
-	--define server_url=http://140.221.84.148:8000 \
+	--define server_url=$(SERVER_URL) \
 	--define client_group=kbase \
 	--define client_name=kbase-client \
-	--define supported_apps=awe_qc.pl,awe_annotate.pl,awe_bowtie_screen.pl,awe_cluster_parallel.pl,awe_dereplicate.pl,awe_genecalling.pl,awe_preprocess.pl,awe_rna_blat.sh,awe_rna_search.pl,awe_blat.py
+	--define supported_apps=$(APP_LIST)
 endif
 
 all: initialize build-awe |
@@ -54,11 +54,13 @@ include $(TOP_DIR)/tools/Makefile.common.rules
 
 .PHONY : test
 
-deploy: deploy-service deploy-client deploy-utils deploy-libs
-
 clean:
-	-rm $(BIN_DIR)/awe-server
-	-rm $(BIN_DIR)/awe-client
+	if [ -f $(SERVICE_DIR)/stop_service ]; then $(SERVICE_DIR)/stop_service; fi;
+	if [ -f $(SERVICE_DIR)/stop_aweclient ]; then $(SERVICE_DIR)/stop_aweclient; fi;
+	-rm -f $(BIN_DIR)/awe-server
+	-rm -f $(BIN_DIR)/awe-client
+	-rm -rf $(SERVICE_DIR)
+	-rm -rf $(AWE_DIR)
 
 build-awe: $(BIN_DIR)/awe-server
 
@@ -72,16 +74,12 @@ $(BIN_DIR)/awe-server: AWE/awe-server/awe-server.go
 	cp -v $(GO_TMP_DIR)/bin/awe-server $(BIN_DIR)/awe-server
 	cp -v $(GO_TMP_DIR)/bin/awe-client $(BIN_DIR)/awe-client
 
-deploy-libs:
-	rsync --exclude '*.bak' -arv AWE/utils/lib/. $(TARGET)/lib/.
+deploy: deploy-service deploy-client deploy-utils deploy-libs
 
-deploy-service: all
+deploy-service: build-dirs
 	cp $(BIN_DIR)/awe-server $(TARGET)/bin
 	$(TPAGE) $(TPAGE_ARGS) awe_server.cfg.tt > awe.cfg
 	$(TPAGE) $(TPAGE_ARGS) AWE/site/js/config.js.tt > AWE/site/js/config.js
-	mkdir -p $(AWE_DIR)/site $(AWE_DIR)/data $(AWE_DIR)/logs $(AWE_DIR)/awfs
-	chmod 777  $(AWE_DIR)/site $(AWE_DIR)/data $(AWE_DIR)/logs $(AWE_DIR)/awfs
-	rm -r $(AWE_DIR)/site
 	cp -v -r AWE/site $(AWE_DIR)/site
 	mkdir -p $(BIN_DIR) $(SERVICE_DIR) $(SERVICE_DIR)/conf $(SERVICE_DIR)/logs/awe $(SERVICE_DIR)/data/temp
 	cp -v awe.cfg $(SERVICE_DIR)/conf/awe.cfg
@@ -93,12 +91,10 @@ deploy-service: all
 	cp service/stop_service $(SERVICE_DIR)/
 	chmod +x $(SERVICE_DIR)/stop_service
 
-deploy-client: all
+deploy-client: build-dirs
 	cp $(BIN_DIR)/awe-client $(TARGET)/bin
 	$(TPAGE) $(TPAGE_ARGS) awe_client.cfg.tt > awec.cfg
 	mkdir -p $(BIN_DIR) $(SERVICE_DIR) $(SERVICE_DIR)/conf $(SERVICE_DIR)/logs/awe $(SERVICE_DIR)/data/temp
-	mkdir -p $(AWE_DIR)/data $(AWE_DIR)/logs $(AWE_DIR)/work      
-	chmod 777 $(AWE_DIR)/data $(AWE_DIR)/logs $(AWE_DIR)/work
 	cp -v awec.cfg $(SERVICE_DIR)/conf/awec.cfg
 	$(TPAGE) $(TPAGE_ARGS) service/start_aweclient.tt > service/start_aweclient
 	$(TPAGE) $(TPAGE_ARGS) service/stop_aweclient.tt > service/stop_aweclient
@@ -106,6 +102,13 @@ deploy-client: all
 	chmod +x $(SERVICE_DIR)/start_aweclient
 	cp service/stop_aweclient $(SERVICE_DIR)/
 	chmod +x $(SERVICE_DIR)/stop_aweclient
+
+build-dirs:
+	mkdir -p $(AWE_DIR)/data $(AWE_DIR)/logs $(AWE_DIR)/awfs $(AWE_DIR)/work
+	chmod 777 $(AWE_DIR)/data $(AWE_DIR)/logs $(AWE_DIR)/awfs $(AWE_DIR)/work
+
+deploy-libs:
+	rsync --exclude '*.bak' -arv AWE/utils/lib/. $(TARGET)/lib/.
 
 deploy-upstart:
 	$(TPAGE) $(TPAGE_ARGS) init/awe.conf.tt > /etc/init/awe.conf
