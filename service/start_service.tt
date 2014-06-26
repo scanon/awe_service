@@ -1,7 +1,8 @@
 #!/bin/bash
 
-PID_FILE=[% kb_top %]/services/awe_service/service.pid
+AWE_DIR=[% kb_top %]/services/awe_service
+PID_FILE=$AWE_DIR/service.pid
 AWE_CONFIG=[% kb_top %]/services/awe_service/conf/awe.cfg
 
-echo "[% kb_runtime %]/sbin/daemonize -v -p $PID_FILE [% kb_top %]/bin/awe-server -conf $AWE_CONFIG"
-[% kb_runtime %]/sbin/daemonize -v -p $PID_FILE [% kb_top %]/bin/awe-server -conf $AWE_CONFIG
+echo "[% kb_runtime %]/sbin/daemonize -v -o $AWE_DIR/awes-start.log -e $AWE_DIR/awes-start.log -p $PID_FILE [% kb_top %]/bin/awe-server -conf $AWE_CONFIG"
+[% kb_runtime %]/sbin/daemonize -v -o $AWE_DIR/awes-start.log -e $AWE_DIR/awes-start.log -p $PID_FILE [% kb_top %]/bin/awe-server -conf $AWE_CONFIG
