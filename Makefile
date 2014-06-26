@@ -7,7 +7,8 @@ SERVER_URL = http://localhost:8000
 GO_TMP_DIR = /tmp/go_build.tmp
 CLIENT_GROUP = kbase
 APP_LIST = '*'
-PRODUCTION = 0 
+PRODUCTION = 0
+TPAGE := $(shell which tpage)
 
 ifeq ($(PRODUCTION), 1)
 	AWE_DIR = /disk0/awe
