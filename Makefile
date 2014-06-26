@@ -8,7 +8,6 @@ GO_TMP_DIR = /tmp/go_build.tmp
 CLIENT_GROUP = kbase
 APP_LIST = '*'
 PRODUCTION = 0
-TPAGE := $(shell which tpage)
 
 ifeq ($(PRODUCTION), 1)
 	AWE_DIR = /disk0/awe
@@ -51,8 +50,10 @@ else
 endif
 
 all: initialize build-awe |
+
 include $(TOP_DIR)/tools/Makefile.common
 include $(TOP_DIR)/tools/Makefile.common.rules
+TPAGE := $(shell which tpage)
 
 .PHONY : test
 
