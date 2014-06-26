@@ -10,6 +10,6 @@ group=[% client_group %]
 name=[% client_name %]
 auto_clean_dir=true
 worker_overlap=false
-print_app_msg=false
+print_app_msg=true
 username=
 password=

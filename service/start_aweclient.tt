@@ -7,8 +7,9 @@ export KB_SERVICE_DIR=$KB_TOP/services/[% kb_service_dir %]
 export KB_DEPLOYMENT_CONFIG=$KB_TOP/deployment.cfg
 export R_LIBS=$KB_TOP/lib
 
-PID_FILE=[% kb_top %]/services/awe_service/client.pid
+AWE_DIR=[% kb_top %]/services/awe_service
+PID_FILE=$AWE_DIR/client.pid
 AWEC_CONFIG=[% kb_top %]/services/awe_service/conf/awec.cfg
 
-echo "[% kb_runtime %]/sbin/daemonize -v -p $PID_FILE [% kb_top %]/bin/awe-client -conf $AWEC_CONFIG"
-[% kb_runtime %]/sbin/daemonize -v -p $PID_FILE [% kb_top %]/bin/awe-client -conf $AWEC_CONFIG
+echo "[% kb_runtime %]/sbin/daemonize -v -o $AWE_DIR/awec-start.log -e $AWE_DIR/awec-start.log -p $PID_FILE [% kb_top %]/bin/awe-client -conf $AWEC_CONFIG"
+[% kb_runtime %]/sbin/daemonize -v -o $AWE_DIR/awec-start.log -e $AWE_DIR/awec-start.log -p $PID_FILE [% kb_top %]/bin/awe-client -conf $AWEC_CONFIG
