@@ -20,7 +20,7 @@ check process [% kb_service_name %] with pidfile [% kb_top %]/services/[% kb_ser
 
 [% id = 1 %]
 [% WHILE id <= n_awe_clients %]
-check process awe_client_[% id %] with pidfile [% kb_top %]/services/[% kb_service_dir %]/client_[% id %].pid
+check process awe_client_[% id %] with pidfile [% kb_top %]/services/[% kb_service_dir %]/client-[% id %].pid
   start program = "[% kb_top %]/services/[% kb_service_dir %]/start_aweclient [% id %]" with timeout 60 seconds
   stop  program = "[% kb_top %]/services/[% kb_service_dir %]/stop_aweclient [% id %]"
   if 3 restarts within 5 cycles then timeout
