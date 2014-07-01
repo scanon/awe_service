@@ -1,6 +1,15 @@
 #!/bin/bash
 
-PID_FILE=[% kb_top %]/services/awe_service/client.pid
+if [ $# -gt 0 ] ; then
+	suffix=_$1
+	id=$1
+else
+	id=
+	suffix=
+fi
+
+
+PID_FILE=[% kb_top %]/services/awe_service/client$suffix.pid
 
 PID=`cat $PID_FILE`
 kill $PID 2>&1

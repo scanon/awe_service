@@ -1,0 +1,12 @@
+package Bio::KBase::AWE::Constants;
+
+use constant        APIServerURL   => '[% api_url %]';
+use constant        SiteServerURL   => '[% site_url %]';
+
+use base 'Exporter';
+our @EXPORT_OK = qw(APIServerURL SiteServerURL );
+our %EXPORT_TAGS = ( urls => [ qw(APIServerURL SiteServerURL) ] );
+
+
+1;
+

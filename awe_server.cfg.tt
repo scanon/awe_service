@@ -1,3 +1,9 @@
+[Auth]
+globus_token_url=[% globus_token_url %]
+globus_profile_url=[% globus_profile_url %]
+admin_list=[% admin_list %]
+admin_auth=[% admin_auth %]
+
 [Anonymous]
 # Controls weither an anonymous user can read/write
 # values: true/false

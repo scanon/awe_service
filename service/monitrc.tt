@@ -1,0 +1,29 @@
+set daemon 60
+
+set logfile [% kb_top %]/services/[% kb_service_dir %]/monit.log
+set idfile [% kb_top %]/services/[% kb_service_dir %]/monit.id
+set pidfile [% kb_top %]/services/[% kb_service_dir %]/monit.pid
+set statefile [% kb_top %]/services/[% kb_service_dir %]/monit.state
+
+set httpd port 2812
+	allow 140.221.0.0/16
+	allow 130.202.0.0/16
+	allow 10.0.8.0/24
+	allow localhost
+
+
+check process [% kb_service_name %] with pidfile [% kb_top %]/services/[% kb_service_dir %]/service.pid
+  start program = "[% kb_top %]/services/[% kb_service_dir %]/start_service" with timeout 60 seconds
+  stop  program = "[% kb_top %]/services/[% kb_service_dir %]/stop_service"
+  if 3 restarts within 5 cycles then timeout
+  group [% kb_service_name %]_group
+
+[% id = 1 %]
+[% WHILE id <= n_awe_clients %]
+check process awe_client_[% id %] with pidfile [% kb_top %]/services/[% kb_service_dir %]/client_[% id %].pid
+  start program = "[% kb_top %]/services/[% kb_service_dir %]/start_aweclient [% id %]" with timeout 60 seconds
+  stop  program = "[% kb_top %]/services/[% kb_service_dir %]/stop_aweclient [% id %]"
+  if 3 restarts within 5 cycles then timeout
+  group [% kb_service_name %]_group
+[% id = id + 1 %]
+[% END %]

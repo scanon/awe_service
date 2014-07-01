@@ -7,7 +7,11 @@ workpath=[% work_dir %]
 supported_apps=[% supported_apps %]
 serverurl=[% server_url %]
 group=[% client_group %]
+[% IF client_index -%]
+name=[% client_name %]-[% client_index %]
+[% ELSE -%]
 name=[% client_name %]
+[% END -%]
 auto_clean_dir=true
 worker_overlap=false
 print_app_msg=false
