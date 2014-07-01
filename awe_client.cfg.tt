@@ -14,6 +14,6 @@ name=[% client_name %]
 [% END -%]
 auto_clean_dir=true
 worker_overlap=false
-print_app_msg=false
+print_app_msg=true
 username=
 password=
