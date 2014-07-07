@@ -13,7 +13,7 @@ PRODUCTION = 0
 
 MONGO_HOST = localhost
 MONGO_DB = AWEDB
-AWE_DIR = /disks/awe
+AWE_DIR = /mnt/awe
 ADMIN_LIST = 
 ADMIN_AUTH = false
 
