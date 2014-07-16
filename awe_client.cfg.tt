@@ -1,6 +1,10 @@
 [Directories]
+site=[% site_dir %]
 data=[% data_dir %]
 logs=[% logs_dir %]
+
+[Args]
+debuglevel=0
 
 [Client]
 workpath=[% work_dir %]
@@ -15,5 +19,4 @@ name=[% client_name %]
 auto_clean_dir=true
 worker_overlap=false
 print_app_msg=true
-username=
-password=
+clientgroup_token=
