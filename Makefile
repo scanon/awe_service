@@ -15,12 +15,12 @@ MONGO_HOST = localhost
 MONGO_DB = AWEDB
 AWE_DIR = /mnt/awe
 ADMIN_LIST = 
-ADMIN_AUTH = false
 
 N_AWE_CLIENTS=1
 
 GLOBUS_TOKEN_URL = https://nexus.api.globusonline.org/goauth/token?grant_type=client_credentials
 GLOBUS_PROFILE_URL = https://nexus.api.globusonline.org/users
+CLIENT_AUTH_REQUIRED = false
 
 ifeq ($(PRODUCTION), 1)
 
@@ -69,8 +69,8 @@ TPAGE_ARGS = --define kb_top=$(TARGET) \
     --define supported_apps=$(APP_LIST) \
     --define globus_token_url=$(GLOBUS_TOKEN_URL) \
     --define globus_profile_url=$(GLOBUS_PROFILE_URL) \
+    --define client_auth_required= $(CLIENT_AUTH_REQUIRED) \
     --define admin_list=$(ADMIN_LIST) \
-    --define admin_auth=$(ADMIN_AUTH) \
     --define n_awe_clients=$(N_AWE_CLIENTS)
 
 

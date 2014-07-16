@@ -1,29 +1,25 @@
-[Auth]
-globus_token_url=[% globus_token_url %]
-globus_profile_url=[% globus_profile_url %]
-admin_list=[% admin_list %]
-admin_auth=[% admin_auth %]
+[Admin]
+email=admin@host.com
+secretkey=supersecretkey
+users=[% admin_list %]
 
 [Anonymous]
 # Controls weither an anonymous user can read/write
 # values: true/false
 read=true
 write=true
-create-user=true
+delete=true
+cg_read=false
+cg_write=false
+cg_delete=false
 
-[Ports]
-# Ports for site/api
-# Note: use of port 80 may require root access
-site-port=[% site_port %]
-api-port=[% api_port %]
+[Args]
+debuglevel=0
 
-[External]
-site-url=[% site_url %]
-api-url=[% api_url %]
-
-[Admin]
-email=admin@host.com
-secretkey=supersecretkey
+[Auth]
+globus_token_url=[% globus_token_url %]
+globus_profile_url=[% globus_profile_url %]
+client_auth_required=[% client_auth_required %]
 
 [Directories]
 # See documentation for details of deploying Shock
@@ -31,6 +27,10 @@ site=[% site_dir %]
 data=[% data_dir %]
 logs=[% logs_dir %]
 awf=[% awfs_dir %]
+
+[External]
+site-url=[% site_url %]
+api-url=[% api_url %]
 
 [Mongodb]
 # Mongodb configuration:
@@ -41,6 +41,12 @@ hosts=[% mongo_host %]
 # See http://www.mongodb.org/display/DOCS/Indexes#Indexes-CreationOptions for more info on mongodb index options.
 # key=unique:true/false[,dropDups:true/false][,sparse:true/false]
 id=unique:true
+
+[Ports]
+# Ports for site/api
+# Note: use of port 80 may require root access
+site-port=[% site_port %]
+api-port=[% api_port %]
 
 [Server]
 perf_log_workunit=true
