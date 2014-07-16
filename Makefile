@@ -1,6 +1,6 @@
 TOP_DIR = ../..
 TARGET ?= /kb/deployment
-DEPLOY_RUNTIME = /kb/runtime
+DEPLOY_RUNTIME ?= /kb/runtime
 SERVICE = awe_service
 SERVICE_DIR = $(TARGET)/services/$(SERVICE)
 
@@ -69,7 +69,7 @@ TPAGE_ARGS = --define kb_top=$(TARGET) \
     --define supported_apps=$(APP_LIST) \
     --define globus_token_url=$(GLOBUS_TOKEN_URL) \
     --define globus_profile_url=$(GLOBUS_PROFILE_URL) \
-    --define client_auth_required= $(CLIENT_AUTH_REQUIRED) \
+    --define client_auth_required=$(CLIENT_AUTH_REQUIRED) \
     --define admin_list=$(ADMIN_LIST) \
     --define n_awe_clients=$(N_AWE_CLIENTS)
 
