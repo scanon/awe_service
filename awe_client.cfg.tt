@@ -20,3 +20,6 @@ auto_clean_dir=true
 worker_overlap=false
 print_app_msg=true
 clientgroup_token=
+pre_work_script=
+# arguments for pre-workunit script execution should be comma-delimited
+pre_work_script_args=
