@@ -14,7 +14,7 @@ PID_FILE=[% kb_top %]/services/awe_service/client$suffix.pid
 if [ -f $PID_FILE ]; then
     PID=`cat $PID_FILE`
     echo "terminating process ID $PID"
-    kill $PID
+    kill -TERM -$PID
     rm $PID_FILE
 else
     echo "No pid file $PID_FILE found for awe client"
