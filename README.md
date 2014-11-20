@@ -53,7 +53,7 @@ make deploy
 /kb/deployment/services/awe_service/stop_service
 ```
 
-- After deployment has completed, if you've associated an IP with your instance you should be able to confirm that AWE is running by going to either url below (ports are defined in `Makefile` prior to deployment):
+- After deployment has completed, if you've associated an IP with your instance you should be able to confirm that AWE is running by going to either url below (IP address and ports are defined in `Makefile` prior to deployment):
 ```
 site ->  http://[AWE Server IP]:7079/
 api  ->  http://[AWE Server IP]:7080/
