@@ -1,6 +1,5 @@
 [Admin]
 email=admin@host.com
-secretkey=supersecretkey
 users=[% admin_list %]
 
 [Anonymous]
@@ -36,6 +35,9 @@ api-url=[% api_url %]
 # Mongodb configuration:
 # Hostnames and ports hosts=host1[,host2:port,...,hostN]
 hosts=[% mongo_host %]
+database=AWEDB
+user=
+password=
 
 [Mongodb-Node-Indices]
 # See http://www.mongodb.org/display/DOCS/Indexes#Indexes-CreationOptions for more info on mongodb index options.
