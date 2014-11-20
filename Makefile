@@ -74,7 +74,7 @@ TPAGE_ARGS = --define kb_top=$(TARGET) \
     --define n_awe_clients=$(N_AWE_CLIENTS)
 
 
-all: initialize  build-awe |
+all: initialize build-awe |
 
 include $(TOP_DIR)/tools/Makefile.common
 include $(TOP_DIR)/tools/Makefile.common.rules
@@ -158,14 +158,12 @@ deploy-upstart:
 	$(TPAGE) $(TPAGE_ARGS) init/awe.conf.tt > /etc/init/awe.conf
 	$(TPAGE) $(TPAGE_ARGS) init/awe-client.conf.tt > /etc/init/awe-client.conf
 
-initialize: AWE/site
+initialize:
+	git submodule init
+	git submodule update
 
 update:
 	cd AWE; git pull origin master
-
-AWE/site:
-	git submodule init
-	git submodule update
 
 deploy-utils: SRC_PERL = $(wildcard AWE/utils/*.pl)
 deploy-utils: deploy-scripts
