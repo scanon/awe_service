@@ -160,7 +160,7 @@ deploy-upstart:
 
 initialize:
 	git submodule init
-	git submodule update
+	git submodule update --init --recursive
 
 update:
 	cd AWE; git pull origin master
