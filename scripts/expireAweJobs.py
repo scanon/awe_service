@@ -1,5 +1,11 @@
 #!env python
 
+# To do:
+# add if __main__
+# do most work in a def
+# actually send the DELETE from script instead of needing to pass through an xargs
+# add verbose and debug switches
+
 import requests
 import datetime
 import os
