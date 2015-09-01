@@ -12,6 +12,7 @@ APP_LIST = '*'
 PRODUCTION = 0
 
 MONGO_HOST = localhost
+MONGO_TIMEOUT = 1200
 MONGO_DB = AWEDB
 AWE_DIR = /mnt/awe
 ADMIN_LIST = 
@@ -61,6 +62,7 @@ TPAGE_ARGS = --define kb_top=$(TARGET) \
     --define logs_dir=$(AWE_DIR)/logs \
     --define awfs_dir=$(AWE_DIR)/awfs \
     --define mongo_host=$(MONGO_HOST) \
+    --define mongo_timeout=$(MONGO_TIMEOUT) \
     --define mongo_db=$(MONGO_DB) \
     --define work_dir=$(AWE_DIR)/work \
     --define server_url=$(SERVER_URL) \
