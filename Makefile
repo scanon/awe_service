@@ -12,6 +12,7 @@ APP_LIST = '*'
 PRODUCTION = 0
 
 MONGO_HOST = localhost
+MONGO_TIMEOUT = 1200
 MONGO_DB = AWEDB
 AWE_DIR = /mnt/awe
 ADMIN_LIST = 
@@ -61,6 +62,7 @@ TPAGE_ARGS = --define kb_top=$(TARGET) \
     --define logs_dir=$(AWE_DIR)/logs \
     --define awfs_dir=$(AWE_DIR)/awfs \
     --define mongo_host=$(MONGO_HOST) \
+    --define mongo_timeout=$(MONGO_TIMEOUT) \
     --define mongo_db=$(MONGO_DB) \
     --define work_dir=$(AWE_DIR)/work \
     --define server_url=$(SERVER_URL) \
@@ -103,6 +105,10 @@ $(BIN_DIR)/awe-server: AWE/awe-server/awe-server.go
 	rm -rf $(GO_TMP_DIR)
 	mkdir -p $(GO_TMP_DIR)/src/github.com/MG-RAST
 	cp -r AWE $(GO_TMP_DIR)/src/github.com/MG-RAST/
+	mkdir -p $(GO_TMP_DIR)/src/github.com/docker
+	wget -O $(GO_TMP_DIR)/src/github.com/docker/docker.zip https://github.com/docker/docker/archive/v1.6.1.zip
+	unzip -d $(GO_TMP_DIR)/src/github.com/docker $(GO_TMP_DIR)/src/github.com/docker/docker.zip
+	mv -v $(GO_TMP_DIR)/src/github.com/docker/docker-1.6.1 $(GO_TMP_DIR)/src/github.com/docker/docker
 	export GOPATH=$(GO_TMP_DIR); go get -v github.com/MG-RAST/AWE/...
 	cp -v $(GO_TMP_DIR)/bin/awe-server $(BIN_DIR)/awe-server
 	cp -v $(GO_TMP_DIR)/bin/awe-client $(BIN_DIR)/awe-client
