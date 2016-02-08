@@ -12,6 +12,7 @@ APP_LIST = '*'
 PRODUCTION = 0
 
 MONGO_HOST = localhost
+MONGO_TIMEOUT = 1200
 MONGO_DB = AWEDB
 AWE_DIR = /mnt/awe
 ADMIN_LIST = 
@@ -61,6 +62,7 @@ TPAGE_ARGS = --define kb_top=$(TARGET) \
     --define logs_dir=$(AWE_DIR)/logs \
     --define awfs_dir=$(AWE_DIR)/awfs \
     --define mongo_host=$(MONGO_HOST) \
+    --define mongo_timeout=$(MONGO_TIMEOUT) \
     --define mongo_db=$(MONGO_DB) \
     --define work_dir=$(AWE_DIR)/work \
     --define server_url=$(SERVER_URL) \
@@ -71,7 +73,12 @@ TPAGE_ARGS = --define kb_top=$(TARGET) \
     --define globus_profile_url=$(GLOBUS_PROFILE_URL) \
     --define client_auth_required=$(CLIENT_AUTH_REQUIRED) \
     --define admin_list=$(ADMIN_LIST) \
-    --define n_awe_clients=$(N_AWE_CLIENTS)
+    --define n_awe_clients=$(N_AWE_CLIENTS) \
+    --define max_work_failure=$(MAX_WORK_FAILURE) \
+    --define max_client_failure=$(MAX_CLIENT_FAILURE) \
+    --define awe_path_prefix=$(AWE_PATH_PREFIX) \
+    --define awe_path_suffix=$(AWE_PATH_SUFFIX) \
+    --define append_service_bins=$(APPEND_SERVICE_BINS)
 
 
 all: initialize build-awe |
@@ -98,6 +105,10 @@ $(BIN_DIR)/awe-server: AWE/awe-server/awe-server.go
 	rm -rf $(GO_TMP_DIR)
 	mkdir -p $(GO_TMP_DIR)/src/github.com/MG-RAST
 	cp -r AWE $(GO_TMP_DIR)/src/github.com/MG-RAST/
+	mkdir -p $(GO_TMP_DIR)/src/github.com/docker
+	wget -O $(GO_TMP_DIR)/src/github.com/docker/docker.zip https://github.com/docker/docker/archive/v1.6.1.zip
+	unzip -d $(GO_TMP_DIR)/src/github.com/docker $(GO_TMP_DIR)/src/github.com/docker/docker.zip
+	mv -v $(GO_TMP_DIR)/src/github.com/docker/docker-1.6.1 $(GO_TMP_DIR)/src/github.com/docker/docker
 	export GOPATH=$(GO_TMP_DIR); go get -v github.com/MG-RAST/AWE/...
 	cp -v $(GO_TMP_DIR)/bin/awe-server $(BIN_DIR)/awe-server
 	cp -v $(GO_TMP_DIR)/bin/awe-client $(BIN_DIR)/awe-client
@@ -124,7 +135,8 @@ deploy-awe-server: all build-dirs build-awe
 	cp $(BIN_DIR)/awe-server $(TARGET)/bin
 	$(TPAGE) $(TPAGE_ARGS) awe_server.cfg.tt > awe.cfg
 	$(TPAGE) $(TPAGE_ARGS) AWE/site/js/config.js.tt > AWE/site/js/config.js
-	cp -v -r AWE/site $(AWE_DIR)/site
+	rsync -arv --exclude=.git AWE/site $(AWE_DIR)/.
+	#cp -v -r AWE/site $(AWE_DIR)/site
 	mkdir -p $(BIN_DIR) $(SERVICE_DIR) $(SERVICE_DIR)/conf $(SERVICE_DIR)/logs/awe $(SERVICE_DIR)/data/temp
 	cp -v awe.cfg $(SERVICE_DIR)/conf/awe.cfg
 	cp -r AWE/templates/awf_templates/* $(AWE_DIR)/awfs/

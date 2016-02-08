@@ -38,6 +38,7 @@ hosts=[% mongo_host %]
 database=AWEDB
 user=
 password=
+timeout=[% mongo_timeout %]
 
 [Mongodb-Node-Indices]
 # See http://www.mongodb.org/display/DOCS/Indexes#Indexes-CreationOptions for more info on mongodb index options.
@@ -52,3 +53,9 @@ api-port=[% api_port %]
 
 [Server]
 perf_log_workunit=true
+[% IF max_work_failure -%]
+max_work_failure=[% max_work_failure %]
+[% END -%]
+[% IF max_client_failure -%]
+max_client_failure=[% max_client_failure %]
+[% END -%]
